@@ -59,6 +59,11 @@ fun Application.module(testing: Boolean = false) {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
 
+        get("/issues/{issueNumber}/events") {
+            var resultList: List<EventDto> = listOf(EventDto(), EventDto());
+            call.respond(resultList)
+        }
+
         get<MyLocation> {
             call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")
         }

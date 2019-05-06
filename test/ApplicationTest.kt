@@ -41,4 +41,16 @@ class ApplicationTest {
             }
         }
     }
+
+    @Test
+    fun testGettingEventsByIssueNumber() {
+        withTestApplication({ module(testing = true) }) {
+            handleRequest(HttpMethod.Get, "/issues/1/events").apply {
+
+                val eventDtoList = Gson().fromJson(response.content, Array<EventDto>::class.java).asList()
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertThat(eventDtoList).hasSize(2)
+            }
+        }
+    }
 }

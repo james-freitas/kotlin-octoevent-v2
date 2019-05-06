@@ -52,4 +52,6 @@ dependencies {
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
     testCompile "io.ktor:ktor-client-mock:$ktor_version"
     testCompile "io.ktor:ktor-client-mock-jvm:$ktor_version"
+
+    testCompile "org.assertj:assertj-core:3.11.1"
 }
