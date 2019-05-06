@@ -16,6 +16,7 @@ import io.ktor.webjars.*
 import java.time.*
 import com.fasterxml.jackson.databind.*
 import com.jaya.octovevent.dto.EventDto
+import com.jaya.octovevent.service.EventServiceImpl
 import io.ktor.jackson.*
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*
@@ -23,6 +24,7 @@ import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
 import io.ktor.client.features.logging.*
+import java.lang.Integer.parseInt
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -55,6 +57,9 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
+
+        val eventService = EventServiceImpl()
+
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
@@ -62,15 +67,8 @@ fun Application.module(testing: Boolean = false) {
         get("/issues/{issueNumber}/events") {
 
             val issue = call.parameters["issueNumber"]
-            if (issue == "1") {
-                var resultList: List<EventDto> = listOf(
-                    EventDto(1, "opened", "2019-03-24T21:40:18Z", 1),
-                    EventDto(2, "closed", "2019-03-28T21:40:18Z", 1)
-                )
-                call.respond(resultList)
-            } else {
-                call.respond(mutableListOf<EventDto>())
-            }
+            val issueNumber = parseInt(issue)
+            call.respond(eventService.getEventsByIssueNumber(issueNumber))
         }
 
         get<MyLocation> {
