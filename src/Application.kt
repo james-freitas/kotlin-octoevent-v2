@@ -60,9 +60,14 @@ fun Application.module(testing: Boolean = false) {
         }
 
         get("/issues/{issueNumber}/events") {
-            var resultList: List<EventDto> = listOf(EventDto(), EventDto());
+            var resultList: List<EventDto> = listOf(
+                EventDto(1, "opened", "2019-03-24T21:40:18Z", 1),
+                EventDto(2, "closed", "2019-03-28T21:40:18Z", 1)
+            );
             call.respond(resultList)
         }
+
+
 
         get<MyLocation> {
             call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")

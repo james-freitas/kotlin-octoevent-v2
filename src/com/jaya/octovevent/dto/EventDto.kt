@@ -1,5 +1,8 @@
 package com.jaya.octovevent.dto
 
-class EventDto {
-
-}
+class EventDto(
+    val id: Int,
+    val action: String,
+    val createdAt: String,
+    val issueNumber: Int
+)

@@ -48,8 +48,19 @@ class ApplicationTest {
             handleRequest(HttpMethod.Get, "/issues/1/events").apply {
 
                 val eventDtoList = Gson().fromJson(response.content, Array<EventDto>::class.java).asList()
-                assertEquals(HttpStatusCode.OK, response.status())
+                assertEquals(response.status(), HttpStatusCode.OK)
+
                 assertThat(eventDtoList).hasSize(2)
+
+                assertEquals(1, eventDtoList[0].id )
+                assertEquals("opened", eventDtoList[0].action )
+                assertEquals("2019-03-24T21:40:18Z", eventDtoList[0].createdAt )
+                assertEquals(1, eventDtoList[0].issueNumber )
+
+                assertEquals( 2, eventDtoList[1].id )
+                assertEquals("closed", eventDtoList[1].action )
+                assertEquals("2019-03-28T21:40:18Z", eventDtoList[1].createdAt )
+                assertEquals(1, eventDtoList[1].issueNumber )
             }
         }
     }
