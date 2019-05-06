@@ -60,14 +60,18 @@ fun Application.module(testing: Boolean = false) {
         }
 
         get("/issues/{issueNumber}/events") {
-            var resultList: List<EventDto> = listOf(
-                EventDto(1, "opened", "2019-03-24T21:40:18Z", 1),
-                EventDto(2, "closed", "2019-03-28T21:40:18Z", 1)
-            );
-            call.respond(resultList)
+
+            val issue = call.parameters["issueNumber"]
+            if (issue == "1") {
+                var resultList: List<EventDto> = listOf(
+                    EventDto(1, "opened", "2019-03-24T21:40:18Z", 1),
+                    EventDto(2, "closed", "2019-03-28T21:40:18Z", 1)
+                )
+                call.respond(resultList)
+            } else {
+                call.respond(mutableListOf<EventDto>())
+            }
         }
-
-
 
         get<MyLocation> {
             call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")

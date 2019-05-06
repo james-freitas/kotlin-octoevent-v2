@@ -43,7 +43,7 @@ class ApplicationTest {
     }
 
     @Test
-    fun testGettingEventsByIssueNumber() {
+    fun testGettingEventsByExistingIssueNumber() {
         withTestApplication({ module(testing = true) }) {
             handleRequest(HttpMethod.Get, "/issues/1/events").apply {
 
@@ -61,6 +61,17 @@ class ApplicationTest {
                 assertEquals("closed", eventDtoList[1].action )
                 assertEquals("2019-03-28T21:40:18Z", eventDtoList[1].createdAt )
                 assertEquals(1, eventDtoList[1].issueNumber )
+            }
+        }
+    }
+
+    @Test
+    fun testGetEventsByNotExistingIssueNumber() {
+        withTestApplication({ module(testing = true) }) {
+            handleRequest(HttpMethod.Get, "/issues/2/events").apply {
+                val eventDtoList = Gson().fromJson(response.content, Array<EventDto>::class.java).asList()
+                assertEquals(response.status(), HttpStatusCode.OK)
+                assertThat(eventDtoList).hasSize(0)
             }
         }
     }
