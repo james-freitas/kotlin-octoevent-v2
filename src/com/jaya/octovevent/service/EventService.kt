@@ -5,5 +5,4 @@ import com.jaya.octovevent.dto.EventDto
 interface EventService {
 
     fun getEventsByIssueNumber(issueNumber: Int): List<EventDto>
-
 }

@@ -53,5 +53,9 @@ dependencies {
     testCompile "io.ktor:ktor-client-mock:$ktor_version"
     testCompile "io.ktor:ktor-client-mock-jvm:$ktor_version"
 
+    compile "org.koin:koin-core:$koin_version"
+    compile "org.koin:koin-ktor:$koin_version"
+    testCompile "org.koin:koin-test:$koin_version"
+    
     testCompile "org.assertj:assertj-core:3.11.1"
 }

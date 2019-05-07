@@ -15,7 +15,9 @@ import io.ktor.features.*
 import io.ktor.webjars.*
 import java.time.*
 import com.fasterxml.jackson.databind.*
+import com.jaya.octovevent.com.jaya.octovevent.koin.dependencyInjectionModule
 import com.jaya.octovevent.dto.EventDto
+import com.jaya.octovevent.service.EventService
 import com.jaya.octovevent.service.EventServiceImpl
 import io.ktor.jackson.*
 import io.ktor.client.*
@@ -24,6 +26,8 @@ import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
 import io.ktor.client.features.logging.*
+import org.koin.ktor.ext.inject
+import org.koin.ktor.ext.installKoin
 import java.lang.Integer.parseInt
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -35,6 +39,7 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(DataConversion)
+    installKoin(listOf(dependencyInjectionModule))
 
     install(Webjars) {
         path = "/webjars" //defaults to /webjars
@@ -58,7 +63,7 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
 
-        val eventService = EventServiceImpl()
+        val eventService by inject<EventService>()
 
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
