@@ -1,17 +1,29 @@
 package com.jaya.octovevent.service
 
+import com.jaya.octovevent.db.DatabaseConnectionFactory.dbQuery
+import com.jaya.octovevent.db.Events
 import com.jaya.octovevent.dto.EventDto
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.select
+import org.joda.time.format.DateTimeFormat
 
 class EventServiceImpl : EventService {
 
-    private val eventList1 = listOfNotNull(
-        EventDto(1, "opened", "2019-03-24T21:40:18Z", 1 ),
-        EventDto(2, "closed", "2019-03-28T21:40:18Z", 1 )
-    )
+    private val dateFormat= DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
-    private val map = mapOf(1 to eventList1, 2 to emptyList())
+    override suspend fun getEventsByIssueNumber(issueNumber: Int): List<EventDto> = dbQuery {
+        Events.select {
+            (Events.issueNumber eq issueNumber)
+        }.mapNotNull { toEventDto(it) }
+    }
 
-    override fun getEventsByIssueNumber(issueNumber: Int): List<EventDto> {
-        return map[issueNumber] ?: emptyList()
+    private fun toEventDto(event: ResultRow): EventDto? {
+
+        return EventDto(
+            id = event[Events.id],
+            action = event[Events.action],
+            createdAt = event[Events.createdAt].toString(dateFormat),
+            issueNumber = event[Events.issueNumber]
+        )
     }
 }
