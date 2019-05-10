@@ -61,5 +61,6 @@ dependencies {
     compile "org.jetbrains.exposed:exposed:$exposed_version"
     compile "com.zaxxer:HikariCP:$hikaricp_version"
 
-    testCompile "org.assertj:assertj-core:3.11.1"
+    testCompile "org.assertj:assertj-core:$assertj_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitokotlin_version"
 }

@@ -1,4 +1,4 @@
-package com.jaya.octovevent.com.jaya.octovevent.koin
+package com.jaya.octovevent.koin
 
 import com.jaya.octovevent.service.EventService
 import com.jaya.octovevent.service.EventServiceImpl
